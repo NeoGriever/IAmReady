@@ -9,6 +9,7 @@ namespace IAmReady;
 public sealed class IAmReadyWindow : Window, IDisposable
 {
     private readonly Plugin plugin;
+    private bool wasCollapsed;
 
     public IAmReadyWindow(Plugin plugin)
         : base($"I Am Ready v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}###IAmReady")
@@ -28,16 +29,43 @@ public sealed class IAmReadyWindow : Window, IDisposable
 
     public override void PreDraw()
     {
-        var ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-        WindowName = $"I Am Ready v{ver}###IAmReady";
+        if (wasCollapsed)
+        {
+            WindowName = $"{BuildAsciiBar()}###IAmReady";
+        }
+        else
+        {
+            var ver = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            WindowName = $"I Am Ready v{ver}###IAmReady";
+        }
+
+        wasCollapsed = true;
 
         var viewport = ImGui.GetMainViewport();
         var center = viewport.WorkPos + viewport.WorkSize * 0.5f;
         ImGui.SetNextWindowPos(center - (Size ?? new Vector2(320, 300)) * 0.5f, ImGuiCond.FirstUseEver);
     }
 
+    private string BuildAsciiBar()
+    {
+        var config = plugin.Configuration;
+        var counter = Plugin.Counter;
+        var max = config.YesCount;
+
+        float fraction;
+        if (max == 0)
+            fraction = 1.0f;
+        else
+            fraction = Math.Clamp((float)counter / max, 0f, 1f);
+
+        var filled = (int)(fraction * 16);
+        return "[" + new string('|', filled) + new string('.', 16 - filled) + "]";
+    }
+
     public override void Draw()
     {
+        wasCollapsed = false;
+
         var config = plugin.Configuration;
 
         // --- Kopfzeile: Active/Inactive Toggle (links) + Sprach-Buttons (rechts) ---
