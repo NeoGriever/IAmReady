@@ -16,6 +16,7 @@ public static class Lang
         { "yes_count", new[] { "Yes Count", "Ja-Anzahl" } },
         { "regex_patterns", new[] { "Regex Patterns", "Regex-Muster" } },
         { "add", new[] { "Add", "Hinzufügen" } },
+        { "add_regex", new[] { "Add Regex", "Regex hinzufügen" } },
         { "remove", new[] { "Remove", "Entfernen" } },
         { "language", new[] { "Language", "Sprache" } },
         { "yes", new[] { "YES", "JA" } },

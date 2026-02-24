@@ -20,11 +20,13 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
     [PluginService] internal static IChatGui ChatGui { get; private set; } = null!;
     [PluginService] internal static IAddonLifecycle AddonLifecycle { get; private set; } = null!;
+    [PluginService] internal static IPlayerState PlayerState { get; private set; } = null!;
 
     private const string CommandName = "/iar";
 
     public Config Configuration { get; }
     internal static int Counter = 0;
+    internal static string LocalPlayerName => PlayerState.CharacterName ?? string.Empty;
 
     private readonly WindowSystem windowSystem = new("IAmReady");
     private readonly IAmReadyWindow mainWindow;

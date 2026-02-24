@@ -4,7 +4,7 @@
     "Punchline": "Automatically accept or decline Duty Finder ready checks based on a configurable counter.",
     "Description": "/iar - opens the I Am Ready tool",
     "InternalName": "IAmReady",
-    "AssemblyVersion": "1.0.0.0",
+    "AssemblyVersion": "1.0.0.1",
     "RepoUrl": "https://github.com/NeoGriever/IAmReady",
     "ApplicableVersion": "any",
     "DalamudApiLevel": 14,
