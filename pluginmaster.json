@@ -1,0 +1,24 @@
+[
+    {
+        "Author": "Valenth Siveria",
+        "Name": "I Am Ready",
+        "Punchline": "Automatically accept or decline Duty Finder ready checks based on a configurable counter.",
+        "Description": "/iar - opens the I Am Ready tool",
+        "InternalName": "IAmReady",
+        "Tags": ["DutyFinder", "Auto", "Ready"],
+        "AssemblyVersion": "1.0.0.0",
+        "TestingAssemblyVersion": "1.0.0.0",
+        "RepoUrl": "https://github.com/NeoGriever/IAmReady",
+        "ApplicableVersion": "any",
+        "DalamudApiLevel": 14,
+        "TestingDalamudApiLevel": 14,
+        "IsHide": "False",
+        "IsTestingExclusive": "False",
+        "DownloadCount": 0,
+        "LastUpdate": 1771913646,
+        "IconUrl": "https://raw.githubusercontent.com/NeoGriever/IAmReady/main/plugins/IAmReady/icon.png",
+        "DownloadLinkInstall": "https://github.com/NeoGriever/IAmReady/raw/main/plugins/IAmReady/latest.zip",
+        "DownloadLinkUpdate": "https://github.com/NeoGriever/IAmReady/raw/main/plugins/IAmReady/latest.zip",
+        "DownloadLinkTesting": "https://github.com/NeoGriever/IAmReady/raw/main/plugins/IAmReady/latest.zip"
+    }
+]
