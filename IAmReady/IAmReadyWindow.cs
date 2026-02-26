@@ -143,7 +143,7 @@ public sealed class IAmReadyWindow : Window, IDisposable
             ImGui.PopFont();
             if (ImGui.IsItemHovered())
                 ImGui.SetTooltip("Du bist die Beste");
-        } else if (Plugin.LocalPlayerName == "Zahira Zenko")
+        } else if (Plugin.LocalPlayerName == "Sahira Zenko")
         {
             ImGui.SameLine();
             ImGui.PushFont(UiBuilder.IconFont);
