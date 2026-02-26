@@ -143,6 +143,16 @@ public sealed class IAmReadyWindow : Window, IDisposable
             ImGui.PopFont();
             if (ImGui.IsItemHovered())
                 ImGui.SetTooltip("Du bist die Beste");
+        } else if (Plugin.LocalPlayerName == "Zahira Zenko")
+        {
+            ImGui.SameLine();
+            ImGui.PushFont(UiBuilder.IconFont);
+            ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1.0f, 0.4f, 0.7f, 1.0f));
+            ImGui.Text(FontAwesomeIcon.Heart.ToIconString());
+            ImGui.PopStyleColor();
+            ImGui.PopFont();
+            if (ImGui.IsItemHovered())
+                ImGui.SetTooltip("Du bist die Beste");
         }
 
         // --- YesCount Slider ---
