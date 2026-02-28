@@ -13,6 +13,7 @@ public sealed class Config : IPluginConfiguration
     public bool IsActive = false;
     public int CurrentLang = 0;
     public List<string> RegexPatterns = new();
+    public bool UseNaturalDelay = false;
 
     public void Save() => Plugin.PluginInterface.SavePluginConfig(this);
 }

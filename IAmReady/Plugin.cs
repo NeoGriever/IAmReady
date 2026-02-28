@@ -21,6 +21,7 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IChatGui ChatGui { get; private set; } = null!;
     [PluginService] internal static IAddonLifecycle AddonLifecycle { get; private set; } = null!;
     [PluginService] internal static IPlayerState PlayerState { get; private set; } = null!;
+    [PluginService] internal static IFramework Framework { get; private set; } = null!;
 
     private const string CommandName = "/iar";
 
@@ -47,14 +48,15 @@ public sealed class Plugin : IDalamudPlugin
         PluginInterface.UiBuilder.OpenConfigUi += OnOpenMainUi;
 
         ChatGui.ChatMessage += OnChatMessage;
-        AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "ContentsFinderConfirm", OnDutyConfirm);
+
+        AddonLifecycle.RegisterListener(AddonEvent.PostSetup, "SelectYesno", OnSelectYesno);
 
         Log.Information("IAmReady loaded.");
     }
 
     public void Dispose()
     {
-        AddonLifecycle.UnregisterListener(AddonEvent.PostSetup, "ContentsFinderConfirm", OnDutyConfirm);
+        AddonLifecycle.UnregisterListener(AddonEvent.PostSetup, "SelectYesno", OnSelectYesno);
         ChatGui.ChatMessage -= OnChatMessage;
         PluginInterface.UiBuilder.Draw -= windowSystem.Draw;
         PluginInterface.UiBuilder.OpenMainUi -= OnOpenMainUi;
@@ -73,25 +75,70 @@ public sealed class Plugin : IDalamudPlugin
         mainWindow.IsOpen = true;
     }
 
-    private unsafe void OnDutyConfirm(AddonEvent type, AddonArgs args)
+    private unsafe void OnSelectYesno(AddonEvent type, AddonArgs args)
     {
+        var addon = (AtkUnitBase*)args.Addon.Address;
+
         if (!Configuration.IsActive)
             return;
 
-        var addon = (AtkUnitBase*)args.Addon.Address;
+        // Ready Check SelectYesno has a visible "Wait" button with NodeId=11
+        var isReadyCheck = false;
+        for (var i = 0; i < addon->UldManager.NodeListCount; i++)
+        {
+            var node = addon->UldManager.NodeList[i];
+            if (node != null && node->NodeId == 11 && node->IsVisible())
+            {
+                isReadyCheck = true;
+                break;
+            }
+        }
+
+        if (!isReadyCheck)
+            return;
+
         if (addon == null)
             return;
 
         if (Counter < Configuration.YesCount)
         {
-            addon->FireCallbackInt(8);
-            Counter++;
-            Log.Information($"Duty confirm: YES ({Counter}/{Configuration.YesCount})");
+            var callbackIndex = 0; // Ja
+            if (Configuration.UseNaturalDelay)
+            {
+                var addonAddr = (nint)addon;
+                var delay = TimeSpan.FromMilliseconds(new Random().Next(700, 2501));
+                Log.Information($"Ready check: YES ({Counter + 1}/{Configuration.YesCount}) — delayed by {delay.TotalMilliseconds:F0}ms");
+                Framework.RunOnTick(() =>
+                {
+                    unsafe { ((AtkUnitBase*)addonAddr)->FireCallbackInt(callbackIndex); }
+                }, delay);
+                Counter++;
+            }
+            else
+            {
+                addon->FireCallbackInt(callbackIndex);
+                Counter++;
+                Log.Information($"Ready check: YES ({Counter}/{Configuration.YesCount})");
+            }
         }
         else
         {
-            addon->FireCallbackInt(9);
-            Log.Information($"Duty confirm: NO ({Counter}/{Configuration.YesCount})");
+            var callbackIndex = 10; // Nein
+            if (Configuration.UseNaturalDelay)
+            {
+                var addonAddr = (nint)addon;
+                var delay = TimeSpan.FromMilliseconds(new Random().Next(700, 2501));
+                Log.Information($"Ready check: NO ({Counter}/{Configuration.YesCount}) — delayed by {delay.TotalMilliseconds:F0}ms");
+                Framework.RunOnTick(() =>
+                {
+                    unsafe { ((AtkUnitBase*)addonAddr)->FireCallbackInt(callbackIndex); }
+                }, delay);
+            }
+            else
+            {
+                addon->FireCallbackInt(callbackIndex);
+                Log.Information($"Ready check: NO ({Counter}/{Configuration.YesCount})");
+            }
         }
     }
 

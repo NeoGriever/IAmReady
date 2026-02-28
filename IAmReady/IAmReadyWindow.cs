@@ -81,13 +81,29 @@ public sealed class IAmReadyWindow : Window, IDisposable
         }
         ImGui.PopStyleColor();
 
-        // Sprach-Buttons rechts
+        // Rechte Button-Gruppe: [Delay-Checkbox] [EN] [DE]
         var btnWidthDE = ImGui.CalcTextSize("DE").X + ImGui.GetStyle().FramePadding.X * 2;
         var btnWidthEN = ImGui.CalcTextSize("EN").X + ImGui.GetStyle().FramePadding.X * 2;
         var spacing = ImGui.GetStyle().ItemSpacing.X;
-        var buttonsWidth = btnWidthEN + spacing + btnWidthDE;
+        var delayLabel = "Delay";
+        var checkboxWidth = ImGui.GetFrameHeight() + ImGui.GetStyle().ItemInnerSpacing.X + ImGui.CalcTextSize(delayLabel).X;
+        var buttonsWidth = checkboxWidth + spacing + btnWidthEN + spacing + btnWidthDE;
 
         ImGui.SameLine(ImGui.GetContentRegionAvail().X + ImGui.GetCursorPosX() - buttonsWidth);
+
+        // Delay checkbox
+        var useDelay = config.UseNaturalDelay;
+        if (ImGui.Checkbox(delayLabel, ref useDelay))
+        {
+            config.UseNaturalDelay = useDelay;
+            config.Save();
+        }
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(Lang.Current == Language.DE
+                ? "Zufälliger Delay (0.7–2.5s) vor der Antwort"
+                : "Random delay (0.7–2.5s) before answering");
+
+        ImGui.SameLine();
 
         // EN button
         if (config.CurrentLang == 0)
