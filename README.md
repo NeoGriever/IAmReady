@@ -22,3 +22,22 @@ Whether you are stepping away for a moment or just tired of clicking, this plugi
 ### Chat Triggers (Regex Patterns)
 At the bottom of the window, you can expand the **Regex Patterns** section. Here you can add simple words or complex regex patterns. 
 If the plugin reads a matching message in your Party or Cross-World Party chat, it will instantly reset your counter to zero, assuming a new pull or instance is starting!
+
+## 📦 Installation
+
+1. Open Dalamud Settings in-game (`/xlsettings`).
+2. Go to the **Experimental** tab.
+3. Add the following Custom Plugin Repository URL:
+   ```
+   https://raw.githubusercontent.com/NeoGriever/IAmReady/main/pluginmaster.json
+   ```
+4. Save, then search for **I Am Ready** in the Plugin Installer.
+
+## 🔧 Technical Info
+
+* **Dalamud API Level:** 14
+* **Applicable Version:** any
+
+## 📄 License
+
+This project is licensed under the [GNU Affero General Public License v3.0 (AGPL-3.0)](https://www.gnu.org/licenses/agpl-3.0.html).
