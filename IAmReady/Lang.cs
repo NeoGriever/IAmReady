@@ -21,6 +21,7 @@ public static class Lang
         { "language", new[] { "Language", "Sprache" } },
         { "yes", new[] { "YES", "JA" } },
         { "no", new[] { "NO", "NEIN" } },
+        { "debug_tooltip", new[] { "Toggle addon debug logger", "Addon-Debug-Logger ein/ausschalten" } },
     };
 
     public static string T(string key)

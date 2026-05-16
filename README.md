@@ -35,7 +35,7 @@ If the plugin reads a matching message in your Party or Cross-World Party chat, 
 
 ## 🔧 Technical Info
 
-* **Dalamud API Level:** 14
+* **Dalamud API Level:** 15
 * **Applicable Version:** any
 
 ## 📄 License

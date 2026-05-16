@@ -18,7 +18,7 @@ public sealed class IAmReadyWindow : Window, IDisposable
 
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(290, 240),
+            MinimumSize = new Vector2(320, 240),
             MaximumSize = new Vector2(400, 1024),
         };
         Size = new Vector2(320, 300);
@@ -80,6 +80,18 @@ public sealed class IAmReadyWindow : Window, IDisposable
             config.Save();
         }
         ImGui.PopStyleColor();
+
+        // Debug Toggle
+        ImGui.SameLine();
+        if (plugin.DebugLoggerActive)
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.9f, 0.6f, 0.1f, 1.0f));
+        else
+            ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0.4f, 0.4f, 0.4f, 1.0f));
+        if (ImGui.SmallButton("Debug"))
+            plugin.DebugLoggerActive = !plugin.DebugLoggerActive;
+        ImGui.PopStyleColor();
+        if (ImGui.IsItemHovered())
+            ImGui.SetTooltip(Lang.T("debug_tooltip"));
 
         // Rechte Button-Gruppe: [Delay-Checkbox] [EN] [DE]
         var btnWidthDE = ImGui.CalcTextSize("DE").X + ImGui.GetStyle().FramePadding.X * 2;
